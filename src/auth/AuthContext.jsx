@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { hashTextWithKey } from '../utils/crypto.utils';
 
 const AuthContext = createContext();
 
@@ -12,6 +13,9 @@ export const AuthProvider = ({ children }) => {
     console.log('estamos aqui en el Auth, username: ' , username );
     console.log('estamos aqui en el Auth, password: ' , password );
 
+    const encryptedPassword = hashTextWithKey(password);
+    console.log(encryptedPassword)
+
     try {
 
       const response = await fetch('http://localhost:3000/auth/login', {
@@ -20,21 +24,27 @@ export const AuthProvider = ({ children }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username, password: encryptedPassword }),
 
       });
 
+      const data = await response.json();
+      
 
       if (response.status === 404) {
-        const errorData = await response.json();
+        
         throw new Error("Usuario o contraseña inválido"); // Captura el mensaje de error específico
+      }
+
+      if (response.status === 403) {
+        
+        throw new Error(data.message); // Captura el mensaje de error específico
       }
 
       if (!response.ok) {
         throw new Error('Usuario o contraseña inválido')
       }
 
-      const data = await response.json();
       const token = data.data; // El token JWT que recibiste
 
       // Almacena el token en localStorage o sessionStorage
@@ -45,6 +55,7 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
 
       console.error('Error en el login: ', error)
+      alert(error.message);
       throw error;
     }
   };
