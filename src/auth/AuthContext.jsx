@@ -9,11 +9,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true)
 
   const login = async (username, password) => {
-    console.log("estamos aqui en el Auth, username: ", username)
-    console.log("estamos aqui en el Auth, password: ", password)
-
     const encryptedPassword = hashTextWithKey(password)
-    console.log(encryptedPassword)
 
     try {
       const response = await fetch(REST_API + "/auth/login", {
@@ -45,7 +41,6 @@ export const AuthProvider = ({ children }) => {
       // Puedes también hacer algo más aquí, como redirigir al usuario
       await fetchUserData(token)
     } catch (error) {
-      console.error("Error en el login: ", error)
       alert(error.message)
       throw error
     }
@@ -67,7 +62,6 @@ export const AuthProvider = ({ children }) => {
       const userData = await response.json()
       setAuth({ user: userData, token }) // Actualiza el estado con el token y los datos del usuario
     } catch (error) {
-      console.error("Error al obtener datos del usuario: ", error)
       logout() // Si falla, haz logout
     } finally {
       setLoading(false)
