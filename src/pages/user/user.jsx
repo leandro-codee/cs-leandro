@@ -1,3 +1,6 @@
+import { useAuth } from "../../auth/AuthContext"
+import Loading from "../../helpers/loading"
+
 const User = () => {
   const { auth, loading } = useAuth()
 
