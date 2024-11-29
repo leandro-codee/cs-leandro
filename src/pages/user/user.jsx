@@ -1,7 +1,3 @@
-import React from "react"
-import { useAuth } from "../../auth/AuthContext"
-import Loading from "../../helpers/loading"
-
 const User = () => {
   const { auth, loading } = useAuth()
 
@@ -12,8 +8,9 @@ const User = () => {
   if (!auth.token || !auth.user) {
     return (
       <div className="unauthorized-container">
-        <div className="message-card">
-          <p>No estás autenticado.</p>
+        <div className="unauthorized-message">
+          <span className="icon">⚠️</span>
+          <p>Acceso Denegado</p>
         </div>
       </div>
     )
@@ -21,106 +18,111 @@ const User = () => {
 
   return (
     <main className="dashboard-main">
-      <div className="dashboard-container">
-        <div className="welcome-section">
-          <h2>Página de Usuario</h2>
-          {auth.token && (
-            <div className="user-info">
-              <div className="avatar-circle">
-                {auth.user?.data.firstname.charAt(0).toUpperCase()}
-              </div>
-              <h1>
-                ¡Hola,{" "}
-                <span className="username">{auth.user?.data.firstname}</span>!
-              </h1>
-            </div>
-          )}
+      <nav className="top-nav">
+        <div className="user-welcome">
+          <span className="avatar">{auth.user?.data.firstname.charAt(0)}</span>
+          <span className="greeting">
+            Bienvenido, {auth.user?.data.firstname}
+          </span>
+        </div>
+      </nav>
+
+      <div className="dashboard-content">
+        <div className="widget">
+          <h2>Panel de Control</h2>
+          <p>¿Qué te gustaría hacer hoy?</p>
         </div>
       </div>
 
       <style>{`
         .dashboard-main {
-          background-image: radial-gradient(rgba(83, 228, 237, 0.72) 2px, transparent 2px),
-                          radial-gradient(rgba(83, 228, 237, 0.72) 2px, transparent 2px);
-          background-size: 27px 27px;
-          background-position: 0 0, 13.5px 13.5px;
-          background-color: #d8d9d9;
+          background: #0f0f0f;
           min-height: 100vh;
-          padding: 2rem;
-          font-family: Arial, sans-serif;
+          color: white;
+          font-family: system-ui, -apple-system, sans-serif;
         }
 
-        .dashboard-container {
-          max-width: 800px;
-          margin: 0 auto;
-          padding: 2rem;
-          background: rgba(255, 255, 255, 0.9);
-          border-radius: 15px;
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        .top-nav {
+          background: rgba(255, 255, 255, 0.05);
+          backdrop-filter: blur(20px);
+          padding: 1rem 2rem;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .welcome-section {
-          text-align: center;
-        }
-
-        .welcome-section h2 {
-          color: #333;
-          font-size: 1.5rem;
-          margin-bottom: 2rem;
-        }
-
-        .user-info {
+        .user-welcome {
           display: flex;
-          flex-direction: column;
           align-items: center;
           gap: 1rem;
         }
 
-        .avatar-circle {
-          width: 80px;
-          height: 80px;
-          background: #4CAF50;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: white;
-          font-size: 2rem;
+        .avatar {
+          background: linear-gradient(45deg, #ff4d4d, #4d79ff);
+          width: 40px;
+          height: 40px;
+          border-radius: 10px;
+          display: grid;
+          place-items: center;
           font-weight: bold;
-          margin-bottom: 1rem;
         }
 
-        .username {
-          color: #4CAF50;
-          font-weight: bold;
+        .greeting {
+          font-size: 1.1rem;
+          color: rgba(255, 255, 255, 0.8);
+        }
+
+        .dashboard-content {
+          padding: 2rem;
+          max-width: 1200px;
+          margin: 0 auto;
+        }
+
+        .widget {
+          background: rgba(255, 255, 255, 0.05);
+          padding: 2rem;
+          border-radius: 20px;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          margin-top: 2rem;
+        }
+
+        .widget h2 {
+          margin: 0;
+          font-size: 1.5rem;
+          background: linear-gradient(45deg, #ff4d4d, #4d79ff);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        .widget p {
+          color: rgba(255, 255, 255, 0.6);
+          margin: 1rem 0 0;
         }
 
         .unauthorized-container {
+          background: #0f0f0f;
           min-height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background-image: radial-gradient(rgba(83, 228, 237, 0.72) 2px, transparent 2px),
-                          radial-gradient(rgba(83, 228, 237, 0.72) 2px, transparent 2px);
-          background-size: 27px 27px;
-          background-position: 0 0, 13.5px 13.5px;
-          background-color: #d8d9d9;
+          display: grid;
+          place-items: center;
         }
 
-        .message-card {
+        .unauthorized-message {
+          background: rgba(255, 255, 255, 0.05);
           padding: 2rem;
-          background: rgba(255, 255, 255, 0.9);
-          border-radius: 8px;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          border-radius: 20px;
           text-align: center;
-          color: #666;
-          font-size: 1.2rem;
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        h1 {
-          color: #333;
+        .unauthorized-message .icon {
+          font-size: 3rem;
+          display: block;
+          margin-bottom: 1rem;
+        }
+
+        .unauthorized-message p {
+          color: #ff4d4d;
           margin: 0;
-          font-size: 2rem;
+          font-size: 1.2rem;
         }
       `}</style>
     </main>

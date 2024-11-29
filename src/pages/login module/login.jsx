@@ -22,100 +22,164 @@ const Login = () => {
 
   return (
     <main className="login-main">
-      <div className="form-container">
+      <div className="login-container">
         <form onSubmit={handleSubmit}>
-          <h1>Login</h1>
+          <h1>Bienvenido</h1>
           {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-          <label htmlFor="email" className="sr-only">
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Email"
-            required
-          />
+          <div className="input-group">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </div>
 
-          <label htmlFor="password" className="sr-only">
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            required
-          />
+          <div className="input-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
 
-          <button type="submit">Start Session</button>
+          <button type="submit">Ingresar →</button>
         </form>
+      </div>
+
+      <div className="background">
+        <div className="circle circle1"></div>
+        <div className="circle circle2"></div>
       </div>
 
       <style>{`
         .login-main {
-          background-image: radial-gradient(rgba(83, 228, 237, 0.72) 2px, transparent 2px),
-                          radial-gradient(rgba(83, 228, 237, 0.72) 2px, transparent 2px);
-          background-size: 27px 27px;
-          background-position: 0 0, 13.5px 13.5px;
-          background-color: #d8d9d9;
-          font-family: Arial, sans-serif;
-          margin: 0;
-          display: flex;
-          justify-content: center;
-          align-items: center;
+          background: #0f0f0f;
           min-height: 100vh;
-          font-size: large;
+          display: grid;
+          place-items: center;
+          position: relative;
+          overflow: hidden;
+          font-family: system-ui, -apple-system, sans-serif;
         }
 
-        .form-container {
-          width: 500px;
-          padding: 50px;
-          background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1));
-          border-radius: 8px;
+        .background {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          z-index: 0;
+        }
+
+        .circle {
+          position: absolute;
+          border-radius: 50%;
+          filter: blur(80px);
+        }
+
+        .circle1 {
+          width: 300px;
+          height: 300px;
+          background: #ff4d4d;
+          top: -100px;
+          right: -100px;
+          animation: float 8s ease-in-out infinite;
+        }
+
+        .circle2 {
+          width: 400px;
+          height: 400px;
+          background: #4d79ff;
+          bottom: -150px;
+          left: -150px;
+          animation: float 10s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+          0%, 100% { transform: translate(0, 0); }
+          50% { transform: translate(50px, 50px); }
+        }
+
+        .login-container {
+          background: rgba(255, 255, 255, 0.05);
+          padding: 3rem;
+          border-radius: 20px;
+          backdrop-filter: blur(20px);
+          width: 90%;
+          max-width: 400px;
+          position: relative;
+          z-index: 1;
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         form {
           display: flex;
           flex-direction: column;
-          gap: 10px;
+          gap: 1.5rem;
         }
 
-        form, h1 {
+        h1 {
+          color: white;
+          font-size: 2rem;
+          margin: 0 0 1.5rem;
           text-align: center;
         }
 
-        .sr-only {
-          position: absolute;
-          width: 1px;
-          height: 1px;
-          padding: 0;
-          margin: -1px;
-          overflow: hidden;
-          clip: rect(0,0,0,0);
-          border: 0;
+        .input-group {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
         }
 
-        input, button {
-          padding: 15px 30px;
-          border: unset;
-          font-size: small;
-          border-radius: 4px;
+        label {
+          color: #ffffff80;
+          font-size: 0.9rem;
+        }
+
+        input {
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          padding: 1rem;
+          border-radius: 10px;
+          color: white;
+          font-size: 1rem;
+          transition: all 0.3s ease;
+        }
+
+        input:focus {
+          outline: none;
+          border-color: rgba(255, 255, 255, 0.3);
+          background: rgba(255, 255, 255, 0.1);
         }
 
         button {
-          background-color: #4CAF50;
-          color: white;
+          background: white;
+          color: black;
+          padding: 1rem;
+          border: none;
+          border-radius: 10px;
+          font-size: 1rem;
           cursor: pointer;
-          font-weight: bold;
+          transition: transform 0.3s ease;
+        }
+
+        button:hover {
+          transform: translateY(-2px);
         }
 
         .error-message {
-          color: red;
-          margin: 10px 0;
+          color: #ff4d4d;
+          text-align: center;
+          margin: 0;
+          font-size: 0.9rem;
         }
       `}</style>
     </main>
